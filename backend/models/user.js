@@ -12,14 +12,12 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true,
         trim: true,
-        lowercase: true,
-        match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Please enter a valid email address']
+        lowercase: true
     },
     password: {
         type: String,
         required: true,
-        minlength: 6,
-        select: false // Exclude password from query results by default
+        minlength: 6
     },
     role: {
         type: String,
@@ -38,29 +36,35 @@ const userSchema = new mongoose.Schema({
         default: false
     },
     hostDetails: {
-        isHost: {
-            type: Boolean,
-            default: false
+        type: {
+            isHost: {
+                type: Boolean,
+                default: false
+            },
+            hostSince: Date,
+            totalListings: {
+                type: Number,
+                default: 0
+            },
+            averageRating: {
+                type: Number,
+                default: 0
+            }
         },
-        hostSince: Date,
-        totalListings: {
-            type: Number,
-            default: 0
-        },
-        averageRating: {
-            type: Number,
-            default: 0
-        }
+        default: () => ({})
     },
     guestDetails: {
-        totalBookings: {
-            type: Number,
-            default: 0
+        type: {
+            totalBookings: {
+                type: Number,
+                default: 0
+            },
+            wishlist: [{
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Property'
+            }]
         },
-        wishlist: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Property'
-        }]
+        default: () => ({})
     }
 }, {
     timestamps: true

@@ -31,7 +31,7 @@ const bookingSchema = new mongoose.Schema({
     },
     totalPrice: {
         type: Number,
-        required: true
+        required: false
     },
     priceBreakdown: {
         basePrice: Number,

@@ -11,13 +11,20 @@ const register = async (req, res) => {
             return res.status(400).json({ message: 'User already exists' });
         }
 
+        // Prepare hostDetails based on role
+        const hostDetails = {
+            isHost: role === 'host',
+            hostSince: role === 'host' ? new Date() : undefined
+        };
+
         // Create new user
         const user = new User({
             name,
             email,
             password,
             role,
-            phone
+            phone,
+            hostDetails
         });
 
         await user.save();
@@ -38,6 +45,37 @@ const register = async (req, res) => {
     }
 };
 
+const getAllUsers = async (req, res) => {
+    try {
+        const users = await User.find().select('-password');
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({
+            message: 'Error fetching users',
+            error: error.message
+        });
+    }
+};
+
+// Get user by ID
+const getUserById = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id).select('-password');
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({
+            message: 'Error fetching user',
+            error: error.message
+        });
+    }
+};
+
 module.exports = {
-    register
+   
+    register,
+    getAllUsers,
+    getUserById
 }; 

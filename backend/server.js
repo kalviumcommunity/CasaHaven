@@ -30,7 +30,7 @@ app.use('/api/reviews', reviewRoutes);
 
 // Test route
 app.get('/', (req, res) => {
-    res.send('StayNest API is running');
+    res.send('RestNest API is running');
 });
 
 // Start server

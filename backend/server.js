@@ -2,11 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
-// Suppress dotenv messages
-process.env.DOTENV_SILENT = 'true';
-
 // Load environment variables
-dotenv.config({ silent: true, debug: false });
+dotenv.config();
 
 // Create Express app
 const app = express();
@@ -19,9 +16,15 @@ mongoose.connect(process.env.MONGO_URL)
     .then(() => console.log('Connected to MongoDB'))
     .catch((err) => console.error('MongoDB connection error:', err));
 
+// Import routes
+const userRoutes = require('./routes/userRoutes');
+
+// Use routes
+app.use('/api/users', userRoutes);
+
 // Test route
 app.get('/', (req, res) => {
-    res.send('StayNest API is running');
+    res.send('RestNest API is running');
 });
 
 // Start server

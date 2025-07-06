@@ -1,14 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const { createReview, getAllReviews, getReviewById } = require('../controllers/reviewController');
+const { createProperty, getAllProperties, getPropertyById, updateProperty } = require('../controllers/propertyController');
 
-// Create a new review
-router.post('/', createReview);
+// Create a new property
+router.post('/', createProperty);
 
-// Get all reviews
-router.get('/', getAllReviews);
+// Get all properties
+router.get('/', getAllProperties);
 
-// Get review by ID
-router.get('/:id', getReviewById);
+// Get property by ID
+router.get('/:id', getPropertyById);
+
+// Update property by ID
+router.put('/:id', updateProperty);
 
 module.exports = router; 

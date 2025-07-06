@@ -1,0 +1,35 @@
+{
+  "name": "restnest-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "homestay",
+    "rental",
+    "booking",
+    "mern",
+    "nodejs",
+    "express"
+  ],
+  "author": "",
+  "license": "ISC",
+  "description": "Backend API for RestNest - a modern homestay rental platform designed to provide a seamless experience for both travelers seeking comfortable stays and hosts looking to rent out their properties",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.0.1",
+    "express": "^5.1.0",
+    "express-validator": "^7.2.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.16.1",
+    "multer": "^2.0.1",
+    "nodemailer": "^7.0.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

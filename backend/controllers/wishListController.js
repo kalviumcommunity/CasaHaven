@@ -83,32 +83,29 @@ const removeFromWishlist = async (req, res) => {
 };
 
 // Get the user's wishlist
+// Get the user's wishlist
 const getWishlist = async (req, res) => {
-  try {
-    const { userId } = req.body;
-
-    // Check if userId is provided
-    if (!userId) {
-      return res.status(400).json({ message: "User ID is required" });
+    try {
+      const userId = req.query.userId || req.body.userId;
+  
+      if (!userId) {
+        return res.status(400).json({ message: "User ID is required" });
+      }
+  
+      // Find the user's wishlist and populate with property data
+      const wishlist = await Wishlist.findOne({ user: userId }).populate("properties");
+  
+      if (!wishlist) {
+        return res.status(404).json({ message: "Wishlist not found for this user" });
+      }
+  
+      return res.status(200).json(wishlist.properties);
+    } catch (error) {
+      console.error("Error fetching wishlist:", error);
+      return res.status(500).json({ message: "Server error" });
     }
-
-    // Find the user's wishlist and populate with property data
-    const wishlist = await Wishlist.findOne({ user: userId }).populate(
-      "properties"
-    );
-
-    if (!wishlist) {
-      return res
-        .status(404)
-        .json({ message: "Wishlist not found for this user" });
-    }
-
-    return res.status(200).json(wishlist.properties);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Server error" });
-  }
-};
+  };
+  
 
 module.exports = {
   addToWishlist,

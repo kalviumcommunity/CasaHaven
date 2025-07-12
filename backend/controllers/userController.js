@@ -1,4 +1,5 @@
-const User = require('../models/user');
+const mongoose = require("mongoose");
+const User = require("../models/user");
 
 // Register a new user
 const register = async (req, res) => {
@@ -35,21 +36,24 @@ const register = async (req, res) => {
     };
 
     // If role is host, initialize hostDetails
-    if (role === 'host') {
+    if (role === "host") {
       userData.hostDetails = {
         isHost: true,
         hostSince: new Date(),
         averageRating: 0,
         totalReviews: 0,
-        ...hostDetails // allow optional override
+        totalListings: 0,
+        ...hostDetails, // allow optional override
       };
     }
 
     // If role is guest, initialize guestDetails
-    if (role === 'guest') {
+    if (role === "guest") {
       userData.guestDetails = {
         isGuest: true,
-        ...guestDetails // optional override
+        totalBookings: 0,
+        wishlist: [],
+        ...guestDetails, // optional override
       };
     }
 
@@ -89,10 +93,17 @@ const getAllUsers = async (req, res) => {
 // Get user by ID (no password)
 const getUserById = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).select("-password");
+    const id = req.params.id.trim(); // 🧼 Sanitize ID
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid user ID format" });
+    }
+
+    const user = await User.findById(id).select("-password");
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
+
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json({
@@ -105,9 +116,15 @@ const getUserById = async (req, res) => {
 // Update user by ID
 const updateUser = async (req, res) => {
   try {
-    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
+    const id = req.params.id.trim(); // 🧼 Sanitize ID
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid user ID format" });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(id, req.body, {
       new: true,
-      runValidators: true
+      runValidators: true,
     }).select("-password");
 
     if (!updatedUser) {
@@ -126,9 +143,32 @@ const updateUser = async (req, res) => {
   }
 };
 
+// Delete user by ID
+const deleteUser = async (req, res) => {
+  try {
+    const deletedUser = await User.findByIdAndDelete(req.params.id);
+
+    if (!deletedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({
+      message: "User deleted successfully",
+      user: deletedUser,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error deleting user",
+      error: error.message,
+    });
+  }
+};
+
+
 module.exports = {
   register,
   getAllUsers,
   getUserById,
   updateUser,
+  deleteUser,
 };

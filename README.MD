@@ -4,15 +4,6 @@
 
 ---
 
-## 🚀 Live Demo
-
-- [Frontend Deployed on Netlify](https://restnest.netlify.app/)
-- [Backend Deployed on Render] (https://restnest1.onrender.com/)
-
-
-
----
-
 ## 🚀 Features
 
 ### 🔐 User Authentication & Authorization
@@ -74,3 +65,4 @@
 ---
 
 ## 📂 Project Structure (MERN)
+

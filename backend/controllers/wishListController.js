@@ -1,15 +1,15 @@
 const Property = require("../models/Property");
-const User = require("../models/user");
 const Wishlist = require("../models/wishlist"); // Use Wishlist model
 
 // Add a property to the user's wishlist
 const addToWishlist = async (req, res) => {
   try {
-    const { propertyId, userId } = req.body;
+    const { propertyId } = req.body;
+    const userId = req.user.id; // Get userId from JWT token via auth middleware
 
-    // Check if userId is provided
-    if (!userId) {
-      return res.status(400).json({ message: "User ID is required" });
+    // Validate propertyId
+    if (!propertyId) {
+      return res.status(400).json({ message: "Property ID is required" });
     }
 
     // Check if the property exists
@@ -48,12 +48,7 @@ const addToWishlist = async (req, res) => {
 const removeFromWishlist = async (req, res) => {
   try {
     const { propertyId } = req.params;
-    const { userId } = req.body;
-
-    // Check if userId is provided
-    if (!userId) {
-      return res.status(400).json({ message: "User ID is required" });
-    }
+    const userId = req.user.id; // Get userId from JWT token via auth middleware
 
     // Find the wishlist of the user
     const wishlist = await Wishlist.findOne({ user: userId });
@@ -83,29 +78,27 @@ const removeFromWishlist = async (req, res) => {
 };
 
 // Get the user's wishlist
-// Get the user's wishlist
 const getWishlist = async (req, res) => {
-    try {
-      const userId = req.query.userId || req.body.userId;
-  
-      if (!userId) {
-        return res.status(400).json({ message: "User ID is required" });
-      }
-  
-      // Find the user's wishlist and populate with property data
-      const wishlist = await Wishlist.findOne({ user: userId }).populate("properties");
-  
-      if (!wishlist) {
-        return res.status(404).json({ message: "Wishlist not found for this user" });
-      }
-  
-      return res.status(200).json(wishlist.properties);
-    } catch (error) {
-      console.error("Error fetching wishlist:", error);
-      return res.status(500).json({ message: "Server error" });
+  try {
+    const userId = req.user.id; // Get userId from JWT token via auth middleware
+
+    // Find the user's wishlist and populate with property data
+    const wishlist = await Wishlist.findOne({ user: userId }).populate(
+      "properties"
+    );
+
+    if (!wishlist) {
+      return res
+        .status(200)
+        .json({ message: "No wishlist found", properties: [] });
     }
-  };
-  
+
+    return res.status(200).json({ properties: wishlist.properties });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
 
 module.exports = {
   addToWishlist,

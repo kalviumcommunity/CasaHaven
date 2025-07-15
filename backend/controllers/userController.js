@@ -146,7 +146,13 @@ const updateUser = async (req, res) => {
 // Delete user by ID
 const deleteUser = async (req, res) => {
   try {
-    const deletedUser = await User.findByIdAndDelete(req.params.id);
+    const id = req.params.id.trim(); // sanitize input
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid user ID format" });
+    }
+
+    const deletedUser = await User.findByIdAndDelete(id);
 
     if (!deletedUser) {
       return res.status(404).json({ message: "User not found" });
@@ -163,6 +169,7 @@ const deleteUser = async (req, res) => {
     });
   }
 };
+
 
 
 module.exports = {

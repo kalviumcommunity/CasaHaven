@@ -3,27 +3,27 @@ const User = require("../models/User");
 
 // Create a new property
 const createProperty = async (req, res) => {
-  try {
-    const {
-      title,
-      description,
-      location,
-      price,
-      images,
-      amenities,
-      propertyType,
-      bedrooms,
-      bathrooms,
-      maxGuests,
-      rules,
+    try {
+        const {
+            title,
+            description,
+            location,
+            price,
+            images,
+            amenities,
+            propertyType,
+            bedrooms,
+            bathrooms,
+            maxGuests,
+            rules,
       cancellationPolicy,
-    } = req.body;
+        } = req.body;
 
     const hostId = req.user.id; // Get host ID from JWT token
 
     // Validate host exists and has host role
-    const host = await User.findById(hostId);
-    if (!host) {
+        const host = await User.findById(hostId);
+        if (!host) {
       return res.status(404).json({ message: "Host not found" });
     }
 
@@ -31,33 +31,33 @@ const createProperty = async (req, res) => {
       return res
         .status(403)
         .json({ message: "Only hosts can create properties" });
-    }
+        }
 
-    // Create new property
-    const property = new Property({
-      title,
-      description,
-      host: hostId,
-      location,
-      price,
-      images,
-      amenities,
-      propertyType,
-      bedrooms,
-      bathrooms,
-      maxGuests,
-      rules,
+        // Create new property
+        const property = new Property({
+            title,
+            description,
+            host: hostId,
+            location,
+            price,
+            images,
+            amenities,
+            propertyType,
+            bedrooms,
+            bathrooms,
+            maxGuests,
+            rules,
       cancellationPolicy,
-    });
+        });
 
-    await property.save();
+        await property.save();
 
-    res.status(201).json({
+        res.status(201).json({
       message: "Property created successfully",
       property,
-    });
-  } catch (error) {
-    res.status(500).json({
+        });
+    } catch (error) {
+        res.status(500).json({
       message: "Error creating property",
       error: error.message,
     });
@@ -239,8 +239,8 @@ const deleteProperty = async (req, res) => {
       success: false,
       message: "Error deleting property",
       error: error.message,
-    });
-  }
+        });
+    }
 };
 
 module.exports = {

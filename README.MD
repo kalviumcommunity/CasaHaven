@@ -6,7 +6,7 @@
 
 ## 🚀 Live Demo
 
-- [Frontend Deployed on Netlify](https://restnest.netlify.app/)
+- [Frontend Deployed on Netlify](https://casahaven1.netlify.app/)
 - [Backend Deployed on Render](https://casahaven.onrender.com)
 
 ---

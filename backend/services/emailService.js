@@ -125,7 +125,7 @@ const sendAutoReplyToCustomer = async (customerData) => {
             <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px 0;">
               <h3 style="color: #856404; margin: 0 0 10px 0;">💡 Quick Help</h3>
               <p style="color: #856404; margin: 0;">
-                While you wait, check our <a href="http://localhost:5173/support" style="color: #667eea;">FAQ section</a> 
+                While you wait, check our <a href="https://casahaven1.netlify.app/support" style="color: #667eea;">FAQ section</a> 
                 for instant answers to common questions.
               </p>
             </div>

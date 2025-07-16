@@ -1,6 +1,6 @@
-# RestNest 🏡
+# CasaHaven 🏡
 
-**RestNest** is a full-stack MERN (MongoDB, Express.js, React.js, Node.js) homestay booking platform that connects hosts with guests. Hosts can list their properties for rent, while guests can browse, book, and manage their stays.
+**CasaHaven** is a full-stack MERN (MongoDB, Express.js, React.js, Node.js) homestay booking platform that connects hosts with guests. Hosts can list their properties for rent, while guests can browse, book, and manage their stays.
 
 ---
 

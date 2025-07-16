@@ -1,9 +1,11 @@
 import React from "react";
 
+const API = import.meta.env.VITE_API_URL;
+
 const GoogleOAuthButton = ({ text = "Continue with Google" }) => {
   const handleGoogleLogin = () => {
     // Redirect to backend Google OAuth route
-    window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/google`;
+    window.location.href = `${API}/api/auth/google`;
   };
 
   return (

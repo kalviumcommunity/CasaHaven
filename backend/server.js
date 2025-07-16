@@ -30,7 +30,7 @@ app.use(
         scriptSrc: ["'self'"],
         connectSrc: [
           "'self'",
-          process.env.FRONTEND_URL || "http://localhost:5173",
+          process.env.FRONTEND_URL || "https://casahaven1.netlify.app",
         ],
       },
     },
@@ -85,7 +85,7 @@ app.use(passport.session());
 
 // CORS configuration
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || "http://localhost:3000",
+  origin: process.env.FRONTEND_URL || "https://casahaven1.netlify.app",
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: [

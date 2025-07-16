@@ -20,6 +20,25 @@ export default {
       fontFamily: {
         sans: ["Inter", "sans-serif"],
       },
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-16px)' },
+        },
+        'float-fast': {
+          '0%, 100%': { transform: 'translateY(0px) scale(1)' },
+          '50%': { transform: 'translateY(-28px) scale(1.04)' },
+        },
+        'float-slow': {
+          '0%, 100%': { transform: 'translateY(0px) scale(1)' },
+          '50%': { transform: 'translateY(-8px) scale(0.98)' },
+        },
+      },
+      animation: {
+        float: 'float 3s ease-in-out infinite',
+        'float-fast': 'float-fast 2.2s ease-in-out infinite',
+        'float-slow': 'float-slow 4.5s ease-in-out infinite',
+      },
     },
   },
   plugins: [],

@@ -226,42 +226,32 @@ function AppContent() {
         </Routes>
       </main>
 
-      <footer className="bg-white mt-auto border-t border-gray-200">
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex items-center space-x-4 mb-4 md:mb-0">
-              <div>
-                <p className="text-gray-800 font-semibold text-lg">CasaHaven</p>
-                <p className="text-gray-500 text-sm">
-                  &copy; {new Date().getFullYear()} All rights reserved.
-                </p>
-              </div>
+      <footer className="relative bg-gradient-to-r from-pink-50 via-white to-orange-50 mt-auto border-t-0 shadow-[0_-8px_32px_-8px_rgba(255,99,132,0.08)]">
+        <div className="container mx-auto px-4 py-10">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+            <div className="flex flex-col items-center md:items-start mb-6 md:mb-0">
+              <span className="text-2xl font-extrabold bg-gradient-to-r from-pink-500 via-pink-400 to-orange-400 bg-clip-text text-transparent drop-shadow-lg mb-1">CasaHaven</span>
+              <p className="text-gray-500 text-sm mb-3">&copy; {new Date().getFullYear()} All rights reserved.</p>
             </div>
-            <div className="flex space-x-6">
-              <Link
-                to="/privacy-policy"
-                className="text-gray-500 hover:text-blue-600 text-sm font-medium transition-colors"
-              >
-                Privacy Policy
-              </Link>
-              <Link
-                to="/terms-of-service"
-                className="text-gray-500 hover:text-blue-600 text-sm font-medium transition-colors"
-              >
-                Terms of Service
-              </Link>
-              <Link
-                to="/contact"
-                className="text-gray-500 hover:text-blue-600 text-sm font-medium transition-colors"
-              >
-                Contact Us
-              </Link>
-              <Link
-                to="/support"
-                className="text-gray-500 hover:text-blue-600 text-sm font-medium transition-colors"
-              >
-                Support
-              </Link>
+            <div className="flex flex-col items-center md:items-end gap-2">
+              <div className="flex space-x-6 mb-2">
+                <Link to="/privacy-policy" className="flex items-center text-gray-500 hover:text-pink-500 text-sm font-medium transition-colors">
+                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 20.5c4.142 0 7.5-3.358 7.5-7.5s-3.358-7.5-7.5-7.5-7.5 3.358-7.5 7.5 3.358 7.5 7.5 7.5z"/><path d="M12 8v4l3 3"/></svg>
+                  Privacy Policy
+                </Link>
+                <Link to="/terms-of-service" className="flex items-center text-gray-500 hover:text-pink-500 text-sm font-medium transition-colors">
+                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M6 4h12M6 8h12M6 12h12M6 16h12"/></svg>
+                  Terms of Service
+                </Link>
+                <Link to="/contact" className="flex items-center text-gray-500 hover:text-pink-500 text-sm font-medium transition-colors">
+                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M21 10.5a8.38 8.38 0 01-7.5 8.44A8.38 8.38 0 013 10.5V5.75A2.75 2.75 0 015.75 3h12.5A2.75 2.75 0 0121 5.75z"/><path d="M3 6l9 6 9-6"/></svg>
+                  Contact Us
+                </Link>
+                <Link to="/support" className="flex items-center text-gray-500 hover:text-pink-500 text-sm font-medium transition-colors">
+                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                  Support
+                </Link>
+              </div>
             </div>
           </div>
         </div>

@@ -36,7 +36,7 @@ const Navbar = () => {
                 to="/"
                 className="flex items-center space-x-4 hover:opacity-80 transition duration-200"
               >
-                <span className="text-2xl font-bold text-blue-600">
+                <span className="text-2xl font-bold bg-gradient-to-r from-red-500 via-pink-500 to-yellow-500 bg-clip-text text-transparent drop-shadow-lg">
                   CasaHaven
                 </span>
               </Link>

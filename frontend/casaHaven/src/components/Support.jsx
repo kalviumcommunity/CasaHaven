@@ -255,14 +255,6 @@ const Support = () => {
 
   const supportOptions = [
     {
-      title: "Live Chat",
-      description: "Get instant help from our support team",
-      icon: "💬",
-      action: "Start Chat",
-      available: "24/7",
-      color: "bg-red-500",
-    },
-    {
       title: "Phone Support",
       description: "Speak directly with a support specialist",
       icon: "📞",
@@ -291,14 +283,16 @@ const Support = () => {
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <div className="relative bg-gradient-to-br from-red-600 via-purple-600 to-teal-600 overflow-hidden py-20">
-        {/* Background Elements */}
-        <div className="absolute inset-0 bg-black/10"></div>
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-white/10 rounded-full blur-3xl animate-float"></div>
-        <div
-          className="absolute -bottom-40 -left-40 w-80 h-80 bg-red-300/10 rounded-full blur-3xl animate-float"
-          style={{ animationDelay: "2s" }}
-        ></div>
+      <div className="relative bg-gradient-to-br from-pink-500 via-purple-500 to-teal-400 overflow-hidden py-20">
+        {/* Mesh Gradient & Radial Highlight */}
+        <div className="absolute inset-0 bg-gradient-to-br from-pink-500 via-purple-500 to-teal-400 opacity-90"></div>
+        <div className="absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-pink-200/40 rounded-full blur-3xl"></div>
+        <div className="absolute right-0 top-0 w-1/2 h-1/2 bg-purple-100/30 rounded-full blur-2xl"></div>
+        <div className="absolute left-0 bottom-0 w-1/3 h-1/3 bg-white/10 rounded-full blur-2xl"></div>
+        {/* Wavy SVG Overlay at Bottom */}
+        <svg className="absolute bottom-0 left-0 w-full h-24" viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <path d="M0,40 C360,120 1080,-40 1440,40 L1440,100 L0,100 Z" fill="white" fillOpacity="0.18" />
+        </svg>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6 animate-fade-in-up">
@@ -316,7 +310,7 @@ const Support = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Support Options */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           {supportOptions.map((option, index) => (
             <div
               key={index}
@@ -430,10 +424,17 @@ const Support = () => {
 
         {/* Contact CTA */}
         <div
-          className="mt-16 bg-gradient-to-r from-red-600 via-purple-600 to-teal-600 rounded-3xl p-10 text-center relative overflow-hidden animate-fade-in-up"
+          className="mt-16 bg-gradient-to-br from-pink-500 via-purple-500 to-teal-400 rounded-3xl p-10 text-center relative overflow-hidden animate-fade-in-up"
           style={{ animationDelay: "0.7s" }}
         >
-          <div className="absolute inset-0 bg-black/10"></div>
+          {/* Mesh Gradient & Radial Highlight */}
+          <div className="absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[250px] bg-pink-200/40 rounded-full blur-2xl"></div>
+          <div className="absolute right-0 top-0 w-1/2 h-1/2 bg-purple-100/30 rounded-full blur-2xl"></div>
+          <div className="absolute left-0 bottom-0 w-1/3 h-1/3 bg-white/10 rounded-full blur-2xl"></div>
+          {/* Wavy SVG Overlay at Bottom */}
+          <svg className="absolute bottom-0 left-0 w-full h-12" viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M0,20 C360,60 1080,-20 1440,20 L1440,60 L0,60 Z" fill="white" fillOpacity="0.13" />
+          </svg>
           <div className="relative">
             <h2 className="text-3xl font-bold text-white mb-6">
               Still need help?
@@ -449,9 +450,6 @@ const Support = () => {
               >
                 Contact Support
               </Link>
-              <button className="glass border border-white/30 text-white py-4 px-8 rounded-2xl font-semibold hover:bg-white/20 transform hover:scale-105 transition-all duration-300">
-                Start Live Chat
-              </button>
             </div>
           </div>
         </div>

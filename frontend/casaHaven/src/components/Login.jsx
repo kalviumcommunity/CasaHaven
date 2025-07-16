@@ -60,14 +60,14 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-pink-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full relative">
         {/* Logo/Brand Section */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center mb-6">
           </div>
           <h1 className="text-2xl font-bold text-gray-900">
-            Welcome to CasaHaven
+            Welcome to <span className="font-extrabold bg-gradient-to-r from-pink-500 via-pink-400 to-orange-400 bg-clip-text text-transparent drop-shadow-lg">CasaHaven</span>
           </h1>
           <p className="text-gray-600 mt-2">Sign in to your account</p>
         </div>

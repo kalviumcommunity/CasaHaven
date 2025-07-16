@@ -90,11 +90,11 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-50 via-orange-50 to-white py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full relative">
         {/* Logo/Brand Section */}
         <div className="text-center mb-10">
-          <h1 className="text-2xl font-bold text-gray-900">Join CasaHaven</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Join <span className="font-extrabold bg-gradient-to-r from-pink-500 via-pink-400 to-orange-400 bg-clip-text text-transparent drop-shadow-lg">CasaHaven</span></h1>
           <p className="text-gray-600 mt-2">
             Create your account to get started
           </p>

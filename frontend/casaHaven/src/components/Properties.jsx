@@ -134,14 +134,16 @@ const Properties = () => {
   return (
     <div className="min-h-screen">
       {/* Header Section */}
-      <div className="relative bg-gradient-to-br from-red-600 via-red-600 to-red-600 overflow-hidden">
-        {/* Background Elements */}
-        <div className="absolute inset-0 bg-black/10"></div>
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-white/10 rounded-full blur-3xl animate-float"></div>
-        <div
-          className="absolute -bottom-40 -left-40 w-80 h-80 bg-red-300/10 rounded-full blur-3xl animate-float"
-          style={{ animationDelay: "2s" }}
-        ></div>
+      <div className="relative bg-gradient-to-br from-red-600 via-pink-400 to-orange-300 overflow-hidden">
+        {/* Mesh Gradient & Radial Highlight */}
+        <div className="absolute inset-0 bg-gradient-to-br from-red-600 via-pink-400 to-orange-300 opacity-90"></div>
+        <div className="absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-pink-200/40 rounded-full blur-3xl"></div>
+        <div className="absolute right-0 top-0 w-1/2 h-1/2 bg-orange-100/30 rounded-full blur-2xl"></div>
+        <div className="absolute left-0 bottom-0 w-1/3 h-1/3 bg-white/10 rounded-full blur-2xl"></div>
+        {/* Wavy SVG Overlay at Bottom */}
+        <svg className="absolute bottom-0 left-0 w-full h-24" viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <path d="M0,40 C360,120 1080,-40 1440,40 L1440,100 L0,100 Z" fill="white" fillOpacity="0.18" />
+        </svg>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
@@ -335,7 +337,7 @@ const Properties = () => {
                   <div className="mt-6">
                     <Link
                       to="/register"
-                      className="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                      className="inline-flex items-center px-4 py-2 text-white bg-gradient-to-r from-pink-500 via-orange-400 to-yellow-300 rounded-lg hover:from-pink-600 hover:via-orange-500 hover:to-yellow-400 transition-all duration-300 shadow-lg hover:shadow-pink-200/25 animate-glow"
                     >
                       Become a Host
                     </Link>

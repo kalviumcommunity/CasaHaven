@@ -138,7 +138,7 @@ app.use("/api/admin", adminRoutes);
 
 // Test route
 app.get("/", (req, res) => {
-  res.send("RestNest API is running");
+  res.send("CasaHaven API is running");
 });
 
 // Global error handler (must be last middleware)

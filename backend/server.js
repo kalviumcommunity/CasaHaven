@@ -17,7 +17,7 @@ const passport = require("./config/passport");
 // Create Express app
 const app = express();
 
-// Security middleware
+// ──────────────── Security Middleware ────────────────
 app.use(
   helmet({
     crossOriginEmbedderPolicy: false,
@@ -37,10 +37,10 @@ app.use(
   })
 );
 
-// Rate limiting
+// ──────────────── Rate Limiting ────────────────
 const generalLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per windowMs
+  windowMs: 15 * 60 * 1000,
+  max: 100,
   message: {
     success: false,
     message: "Too many requests from this IP, please try again later.",
@@ -48,25 +48,32 @@ const generalLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
 });
-
-// Auth rate limiter is now applied specifically in routes that need it
-
-// Apply rate limiting
 app.use(generalLimiter);
 
-// Logging middleware
-if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
-} else {
-  app.use(morgan("combined"));
-}
+// ──────────────── Logging ────────────────
+app.use(morgan(process.env.NODE_ENV === "development" ? "dev" : "combined"));
 
-// Body parsing middleware with size limits
+// ──────────────── Body Parsers ────────────────
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(cookieParser());
 
-// Session configuration for OAuth
+// ──────────────── CORS ────────────────
+const corsOptions = {
+  origin: [
+    "https://casahaven1.netlify.app",
+    "http://localhost:5173"
+  ],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
+  exposedHeaders: ["set-cookie"]
+};
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // Handle preflight requests
+
+// ──────────────── Session (for OAuth/Auth) ────────────────
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "your-session-secret",
@@ -74,35 +81,17 @@ app.use(
     saveUninitialized: false,
     cookie: {
       secure: process.env.NODE_ENV === "production",
-      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      maxAge: 24 * 60 * 60 * 1000,
     },
   })
 );
 
-// Initialize Passport
+// ──────────────── Passport Config ────────────────
 app.use(passport.initialize());
 app.use(passport.session());
 
-// CORS configuration
-const corsOptions = {
-  origin: process.env.FRONTEND_URL || "https://casahaven1.netlify.app",
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: [
-    "Content-Type",
-    "Authorization",
-    "X-Requested-With",
-    "Accept",
-  ],
-  exposedHeaders: ["set-cookie"],
-};
-app.use(cors(corsOptions));
-
-// Handle preflight requests
-app.options("*", cors(corsOptions));
-
-// MongoDB Connection
-mongoose.set("strictQuery", false); // Prepare for Mongoose 7
+// ──────────────── MongoDB Connection ────────────────
+mongoose.set("strictQuery", false);
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
@@ -111,74 +100,45 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
-// Import routes
-const userRoutes = require("./routes/userRoutes");
-const authRoutes = require("./routes/authRoutes");
-const bookingRoutes = require("./routes/bookingRoutes");
-const propertyRoutes = require("./routes/propertyRoutes");
-const reviewRoutes = require("./routes/reviewRoutes");
-const wishlistRoutes = require("./routes/wishListRoutes");
-const fileUploadRoutes = require("./routes/fileUploadRoutes");
-const supportRoutes = require("./routes/support");
-const adminRoutes = require("./routes/adminRoutes");
-
-// Serve static files from uploads directory
+// ──────────────── Routes ────────────────
 app.use("/uploads", express.static("uploads"));
 
-// Use routes (rate limiting is now applied specifically in routes that need it)
-app.use("/api/users", userRoutes);
-app.use("/api/auth", authRoutes);
-app.use("/api/bookings", bookingRoutes);
-app.use("/api/properties", propertyRoutes);
-app.use("/api/reviews", reviewRoutes);
-app.use("/api/wishlist", wishlistRoutes);
-app.use("/api/upload", fileUploadRoutes);
-app.use("/api/support", supportRoutes);
-app.use("/api/admin", adminRoutes);
+app.use("/api/users", require("./routes/userRoutes"));
+app.use("/api/auth", require("./routes/authRoutes"));
+app.use("/api/bookings", require("./routes/bookingRoutes"));
+app.use("/api/properties", require("./routes/propertyRoutes"));
+app.use("/api/reviews", require("./routes/reviewRoutes"));
+app.use("/api/wishlist", require("./routes/wishListRoutes"));
+app.use("/api/upload", require("./routes/fileUploadRoutes"));
+app.use("/api/support", require("./routes/support"));
+app.use("/api/admin", require("./routes/adminRoutes"));
 
-// Test route
+// ──────────────── Test Route ────────────────
 app.get("/", (req, res) => {
   res.send("CasaHaven API is running");
 });
 
-// Global error handler (must be last middleware)
+// ──────────────── Error Handler ────────────────
 app.use((err, req, res, next) => {
   console.error("Error:", err.message);
 
-  // Mongoose validation error
   if (err.name === "ValidationError") {
     const errors = Object.values(err.errors).map((e) => e.message);
-    return res.status(400).json({
-      success: false,
-      message: "Validation failed",
-      errors,
-    });
+    return res.status(400).json({ success: false, message: "Validation failed", errors });
   }
 
-  // Mongoose cast error (invalid ObjectId)
   if (err.name === "CastError") {
-    return res.status(400).json({
-      success: false,
-      message: "Invalid ID format",
-    });
+    return res.status(400).json({ success: false, message: "Invalid ID format" });
   }
 
-  // JWT errors
   if (err.name === "JsonWebTokenError") {
-    return res.status(401).json({
-      success: false,
-      message: "Invalid token",
-    });
+    return res.status(401).json({ success: false, message: "Invalid token" });
   }
 
   if (err.name === "TokenExpiredError") {
-    return res.status(401).json({
-      success: false,
-      message: "Token expired",
-    });
+    return res.status(401).json({ success: false, message: "Token expired" });
   }
 
-  // Default error
   res.status(err.status || 500).json({
     success: false,
     message: err.message || "Internal server error",
@@ -186,19 +146,16 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start server
+// ──────────────── Server & Shutdown Handling ────────────────
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-// Graceful shutdown function
 const gracefulShutdown = (signal) => {
   console.log(`${signal} received. Shutting down gracefully...`);
-
   server.close(async () => {
     console.log("HTTP server closed");
-
     try {
       await mongoose.connection.close();
       console.log("MongoDB connection closed");
@@ -209,35 +166,21 @@ const gracefulShutdown = (signal) => {
     }
   });
 
-  // Force close after 10 seconds
   setTimeout(() => {
-    console.error(
-      "Could not close connections in time, forcefully shutting down"
-    );
+    console.error("Forcefully shutting down...");
     process.exit(1);
   }, 10000);
 };
 
-// Handle shutdown signals
 process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
 process.on("SIGINT", () => gracefulShutdown("SIGINT"));
 
-// Handle unhandled promise rejections
 process.on("unhandledRejection", (err) => {
   console.error("Unhandled Promise Rejection:", err.message);
-  console.error(err.stack);
-  // Don't exit the process in production, just log the error
-  if (process.env.NODE_ENV === "development") {
-    gracefulShutdown("UNHANDLED_REJECTION");
-  }
+  if (process.env.NODE_ENV === "development") gracefulShutdown("UNHANDLED_REJECTION");
 });
 
-// Handle uncaught exceptions
 process.on("uncaughtException", (err) => {
   console.error("Uncaught Exception:", err.message);
-  console.error(err.stack);
-  // Don't exit the process in production, just log the error
-  if (process.env.NODE_ENV === "development") {
-    gracefulShutdown("UNCAUGHT_EXCEPTION");
-  }
+  if (process.env.NODE_ENV === "development") gracefulShutdown("UNCAUGHT_EXCEPTION");
 });
